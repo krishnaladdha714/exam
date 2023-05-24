@@ -1,44 +1,39 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
-public class _8phoneBook {
+public class Prob8 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter number of entry count: ");
+		int numEntries = scanner.nextInt();
+		scanner.nextLine(); // Consume the newline character
 
-    public static void main(String[] args) {
-        String filename = "data.txt"; // Replace with your file path
+		// Create a HashMap to store the phone book entries
+		Map<String, String> phoneBook = new HashMap<>();
 
-        try {
-            Map<String, String> hashMap = readFileToHashMap(filename);
+		// Read the phone book entries
+		for (int i = 0; i < numEntries; i++) {
+			System.out.print("Enter name: ");
+			String name = scanner.nextLine();
+			System.out.print("Enter phone number: ");
+			String phoneNumber = scanner.nextLine();
+			phoneBook.put(name, phoneNumber);
+		}
 
-            // Print the entries in the HashMap
-            for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		// Process the queries
+		System.out.print("Enter name for finding its number: ");
 
-    public static Map<String, String> readFileToHashMap(String filename) throws IOException {
-        Map<String, String> hashMap = new HashMap<>();
+		while (scanner.hasNextLine()) {
+			String query = scanner.nextLine();
+			if (phoneBook.containsKey(query)) {
+				String phoneNumber = phoneBook.get(query);
+				System.out.println(query + " " + phoneNumber);
+			} else {
+				System.out.println("Not found");
+			}
+		}
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Assuming the file has key-value pairs separated by a delimiter (e.g., comma)
-                String[] parts = line.split(",");
-
-                if (parts.length == 2) {
-                    String key = parts[0].trim();
-                    String value = parts[1].trim();
-
-                    hashMap.put(key, value);
-                }
-            }
-        }
-
-        return hashMap;
-    }
+		scanner.close();
+	}
 }
