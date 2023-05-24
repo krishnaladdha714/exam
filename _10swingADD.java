@@ -1,81 +1,90 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class _10swingADD extends JFrame implements ActionListener {
-    private JTextField num1Field;
-    private JTextField num2Field;
-    private JTextField resultField;
+public class _10swingADD {
+    private JFrame frame;
+    private JTextField firstNumberField;
+    private JTextField secondNumberField;
+    private JLabel resultLabel;
 
     public _10swingADD() {
-        setTitle("Addition Calculator");
-        setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Create the frame
+        frame = new JFrame("GUI Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLayout(new GridLayout(5, 2));
 
-        // Create components
-        JLabel num1Label = new JLabel("Number 1:");
-        num1Field = new JTextField(10);
+        // Create and add components to the frame
+        JLabel firstNumberLabel = new JLabel("First Number:");
+        firstNumberField = new JTextField();
+        JLabel secondNumberLabel = new JLabel("Second Number:");
+        secondNumberField = new JTextField();
+        JLabel resultTextLabel = new JLabel("Result:");
+        resultLabel = new JLabel();
 
-        JLabel num2Label = new JLabel("Number 2:");
-        num2Field = new JTextField(10);
-
-        JLabel resultLabel = new JLabel("Result:");
-        resultField = new JTextField(10);
-        resultField.setEditable(false);
+        frame.add(firstNumberLabel);
+        frame.add(firstNumberField);
+        frame.add(secondNumberLabel);
+        frame.add(secondNumberField);
+        frame.add(resultTextLabel);
+        frame.add(resultLabel);
 
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(this);
-
+        addButton.addActionListener(new AddButtonListener());
         JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(this);
-
+        clearButton.addActionListener(new ClearButtonListener());
         JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(this);
+        exitButton.addActionListener(new ExitButtonListener());
 
-        // Create panel and add components
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2));
-        panel.add(num1Label);
-        panel.add(num1Field);
-        panel.add(num2Label);
-        panel.add(num2Field);
-        panel.add(resultLabel);
-        panel.add(resultField);
-        panel.add(addButton);
-        panel.add(clearButton);
-        panel.add(exitButton);
+        frame.add(addButton);
+        frame.add(clearButton);
+        frame.add(exitButton);
 
-        // Add panel to the frame
-        add(panel);
-
-        setVisible(true);
+        // Display the frame
+        frame.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Add")) {
+    private class AddButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String firstNumberStr = firstNumberField.getText();
+            String secondNumberStr = secondNumberField.getText();
+
             try {
-                int num1 = Integer.parseInt(num1Field.getText());
-                int num2 = Integer.parseInt(num2Field.getText());
-                int result = num1 + num2;
-                resultField.setText(Integer.toString(result));
+                int firstNumber = Integer.parseInt(firstNumberStr);
+                int secondNumber = Integer.parseInt(secondNumberStr);
+
+                int sum = firstNumber + secondNumber;
+
+                // Update the result label
+                resultLabel.setText(String.valueOf(sum));
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter valid numbers.");
+                JOptionPane.showMessageDialog(frame, "Invalid number format", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getActionCommand().equals("Clear")) {
-            num1Field.setText("");
-            num2Field.setText("");
-            resultField.setText("");
-        } else if (e.getActionCommand().equals("Exit")) {
+        }
+    }
+
+    private class ClearButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Clear the text fields and result label
+            firstNumberField.setText("");
+            secondNumberField.setText("");
+            resultLabel.setText("");
+        }
+    }
+
+    private class ExitButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Exit the application
             System.exit(0);
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new _10swingADD();
-            }
-        });
+        new _10swingADD();
     }
 }
