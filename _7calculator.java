@@ -1,23 +1,34 @@
-public class _7calculator {
-    public static void main(String[] args) {
-        try {
-            System.out.println(myCalculator.power(2, 3));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+import java.util.*;
+
+class MyCalculator {
+    public long power(int n, int p) throws Exception {
+
+        if (n < 0 || p < 0) {
+            throw new Exception("n or p should not be negative");
         }
+
+        else if (n==0 || p==0) {
+            throw new Exception("n or p should not be equals to zero");
+        }
+
+        else{
+            return ((long)Math.pow(n, p));
+        }
+
     }
 }
 
-class myCalculator {
-    public static long power(int n, int p) throws Exception {
-        if (n <= 0 | p <= 0) {
-            throw new Exception(" n or p should not be negative");
-        } else {
-            int r = 1;
-            for (int i = 1; i != p + 1; i++) {
-                r *= n;
-            }
-            return r;
+public class Prob7 {
+    public static void main(String[] args){
+        MyCalculator obj = new MyCalculator();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter any two numbers : ");
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        try {
+            System.out.println(obj.power(a, b));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
